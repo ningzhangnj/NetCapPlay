@@ -1,5 +1,7 @@
 package com.network.protocols.telnet;
 
+import com.network.protocols.RelayMessage;
+
 /**
  * TelnetMessage.
  *
@@ -11,9 +13,16 @@ public class TelnetMessage {
 
     private String msgContent;
 
+    private boolean direction;
+
     public TelnetMessage(long waitTime, String msgContent) {
+        this(waitTime, msgContent, false);
+    }
+
+    public TelnetMessage(long waitTime, String msgContent, boolean direction) {
         this.waitTime = waitTime;
         this.msgContent = msgContent;
+        this.direction = direction;
     }
 
     public long getWaitTime() {
@@ -30,5 +39,13 @@ public class TelnetMessage {
 
     public void setMsgContent(String msgContent) {
         this.msgContent = msgContent;
+    }
+
+    public boolean isDirection() {
+        return direction;
+    }
+
+    public void setDirection(boolean direction) {
+        this.direction = direction;
     }
 }

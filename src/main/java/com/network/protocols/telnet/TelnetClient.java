@@ -9,6 +9,7 @@ import com.network.worker.ThreadDispatcher;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -26,6 +27,7 @@ public class TelnetClient extends AbstractProtocol<TelnetMessage> implements Sta
     private final String host;
     private final int port;
     private final TelnetRelay relay;
+    private Channel ch;
 
     public TelnetClient(String host, int port, TelnetRelay relay) {
         this.host = host;
@@ -47,8 +49,7 @@ public class TelnetClient extends AbstractProtocol<TelnetMessage> implements Sta
                             .handler(new TelnetClientInitializer(TelnetClient.this));
 
                     // Start the connection attempt.
-                    Channel ch = b.connect(host, port).sync().channel();
-                    relay.setClientChannel(ch);
+                    ch = b.connect(host, port).sync().channel();
                     ch.closeFuture().sync();
 
                 } catch (Exception e) {
@@ -58,6 +59,13 @@ public class TelnetClient extends AbstractProtocol<TelnetMessage> implements Sta
                 }
             }
         }));
+    }
+
+    @Override
+    public void stop() {
+        if (ch != null) {
+            ch.closeFuture().addListener(ChannelFutureListener.CLOSE);
+        }
     }
 
     public static void main(String[] args) throws Exception {

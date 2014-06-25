@@ -5,6 +5,7 @@ import com.network.mq.MessageEvent;
 import com.network.worker.RunnableDecorator;
 import com.network.worker.ThreadDispatcher;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,9 +16,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author enigzhg
  */
 public class TelnetRelay implements MessageListener<TelnetMessage> {
-    private Channel clientChannel;
+    private ChannelHandlerContext clientChannel;
 
-    private Channel serverChannel;
+    private ChannelHandlerContext serverChannel;
 
     private BlockingQueue<TelnetMessage> clientMsgQueue = new LinkedBlockingQueue<TelnetMessage>();
 
@@ -29,7 +30,7 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
         init();
     }
 
-    public TelnetRelay(Channel client, Channel server) {
+    public TelnetRelay(ChannelHandlerContext client, ChannelHandlerContext server) {
         this.clientChannel = client;
         this.serverChannel = server;
         init();
@@ -58,9 +59,9 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
         while (true) {
             try {
                 TelnetMessage msg = this.clientMsgQueue.take();
+
                 if (serverChannel != null) {
-                    serverChannel.write(msg.getMsgContent() + "\r\n");
-                    serverChannel.flush();
+                    serverChannel.writeAndFlush(msg.getMsgContent() + "\r\n");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -73,9 +74,9 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
         while (true) {
             try {
                 TelnetMessage msg = this.serverMsgQueue.take();
+
                 if (clientChannel != null) {
-                    clientChannel.write(msg.getMsgContent() + "\r\n");
-                    clientChannel.flush();
+                    clientChannel.writeAndFlush(msg.getMsgContent() + "\r\n");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -83,19 +84,19 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
         }
     }
 
-    public Channel getClientChannel() {
+    public ChannelHandlerContext getClientChannel() {
         return clientChannel;
     }
 
-    public void setClientChannel(Channel clientChannel) {
+    public void setClientChannel(ChannelHandlerContext clientChannel) {
         this.clientChannel = clientChannel;
     }
 
-    public Channel getServerChannel() {
+    public ChannelHandlerContext getServerChannel() {
         return serverChannel;
     }
 
-    public void setServerChannel(Channel serverChannel) {
+    public void setServerChannel(ChannelHandlerContext serverChannel) {
         this.serverChannel = serverChannel;
     }
 
@@ -107,5 +108,9 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
     @Override
     public void onServerReceiveMessage(TelnetMessage msg) {
         this.serverMsgQueue.offer(msg);
+    }
+
+    public void respond(TelnetMessage msg) {
+        serverChannel.writeAndFlush(msg.getMsgContent() + "\r\n");
     }
 }

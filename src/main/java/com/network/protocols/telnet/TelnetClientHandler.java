@@ -3,6 +3,7 @@ package com.network.protocols.telnet;
 
 import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
+import com.network.protocols.RelayMessage;
 import com.network.protocols.TimeManager;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,11 +27,19 @@ public class TelnetClientHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
+            if (listener instanceof TelnetRelay) {
+                ((TelnetRelay)listener).setClientChannel(ctx);
+            }
+        }
+    }
+
+    @Override
+    protected void channelRead0(final ChannelHandlerContext ctx, String msg) throws Exception {
         TimeManager.getInstance().startCount();
 
         TelnetMessage request = new TelnetMessage(TimeManager.getInstance().getCurrentTimeDiff(), msg);
-        //System.out.println("msg:" + msg);
         for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
             listener.onClientReceiveMessage(request);
         }

@@ -28,7 +28,6 @@ public class TelnetServerInitializer extends ChannelInitializer<SocketChannel> {
         // Add the text line codec combination first,
         pipeline.addLast("framer", new DelimiterBasedFrameDecoder(
                 8192, Delimiters.lineDelimiter()));
-        // the encoder and decoder are static as these are sharable
         pipeline.addLast("decoder", DECODER);
         pipeline.addLast("encoder", ENCODER);
 

@@ -7,4 +7,6 @@ package com.network.protocols;
  */
 public interface Startable {
     public void start();
+
+    public void stop();
 }

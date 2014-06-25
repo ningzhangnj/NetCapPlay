@@ -2,6 +2,7 @@ package com.network.protocols.telnet;
 
 import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
+import com.network.protocols.RelayMessage;
 import com.network.protocols.TimeManager;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -26,8 +27,6 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
 
     private boolean receivedMsg = false;
 
-    private long lastTime;
-
     public TelnetServerHandler(AbstractProtocol<TelnetMessage> protocol) {
         this.protocol = protocol;
     }
@@ -40,10 +39,16 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
         ctx.write("It is " + new Date() + " now.\r\n");
         ctx.flush();
         receivedMsg = false;
+
+        for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
+            if (listener instanceof TelnetRelay) {
+                ((TelnetRelay)listener).setServerChannel(ctx);
+            }
+        }
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
+    public void channelRead0(final ChannelHandlerContext ctx, String request) throws Exception {
         //Telnet server need to skip the first message, need to investigate why.
         if (receivedMsg) {
             TimeManager.getInstance().startCount();

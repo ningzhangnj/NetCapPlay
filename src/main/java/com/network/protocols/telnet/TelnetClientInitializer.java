@@ -1,7 +1,6 @@
 
 package com.network.protocols.telnet;
 
-import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
