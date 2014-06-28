@@ -6,7 +6,7 @@ import java.util.Properties;
 /**
  * UserConfiguration.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class UserConfiguration {
     public static final String DEFAULT_LOCAL_PORT = "8081";

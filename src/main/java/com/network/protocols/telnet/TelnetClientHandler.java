@@ -3,7 +3,6 @@ package com.network.protocols.telnet;
 
 import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
-import com.network.protocols.RelayMessage;
 import com.network.protocols.TimeManager;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,6 +13,8 @@ import java.util.logging.Logger;
 
 /**
  * Handles a client-side channel.
+ *
+ * @author ningzhangnj
  */
 @Sharable
 public class TelnetClientHandler extends SimpleChannelInboundHandler<String> {

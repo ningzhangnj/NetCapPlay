@@ -3,7 +3,7 @@ package com.network.listener;
 /**
  * MessageListener.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public interface MessageListener<T> {
     public void onClientReceiveMessage(T msg);

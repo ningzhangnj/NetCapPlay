@@ -1,26 +1,20 @@
 
 package com.network.protocols.telnet;
 
-import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
 import com.network.protocols.Startable;
 import com.network.worker.RunnableDecorator;
 import com.network.worker.ThreadDispatcher;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Simplistic telnet client.
+ *
+ * @author ningzhangnj
  */
 public class TelnetClient extends AbstractProtocol<TelnetMessage> implements Startable {
 
@@ -64,7 +58,7 @@ public class TelnetClient extends AbstractProtocol<TelnetMessage> implements Sta
     @Override
     public void stop() {
         if (ch != null) {
-            ch.closeFuture().addListener(ChannelFutureListener.CLOSE);
+            ch.close();
         }
     }
 

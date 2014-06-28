@@ -3,7 +3,7 @@ package com.network.protocols;
 /**
  * Startable.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public interface Startable {
     public void start();

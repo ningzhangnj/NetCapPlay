@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 /**
  * ThreadDispatcher.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class ThreadDispatcher {
     private static final Logger logger = LoggerFactory.getLogger(ThreadDispatcher.class);

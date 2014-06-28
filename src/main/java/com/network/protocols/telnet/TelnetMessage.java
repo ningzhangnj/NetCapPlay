@@ -1,11 +1,9 @@
 package com.network.protocols.telnet;
 
-import com.network.protocols.RelayMessage;
-
 /**
  * TelnetMessage.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class TelnetMessage {
     //unit: ms

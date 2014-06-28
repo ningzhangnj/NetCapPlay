@@ -3,7 +3,7 @@ package com.network.worker;
 /**
  * RunnableDecorator.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class RunnableDecorator implements Runnable {
     private String name;

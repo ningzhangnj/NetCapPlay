@@ -3,7 +3,7 @@ package com.network.protocols;
 /**
  * TimeManager.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class TimeManager {
 

@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * MessageQueueLock.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class MessageQueueLock extends ReentrantLock {
     public MessageQueueLock() {

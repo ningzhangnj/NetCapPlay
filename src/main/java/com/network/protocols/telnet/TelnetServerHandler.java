@@ -2,10 +2,7 @@ package com.network.protocols.telnet;
 
 import com.network.listener.MessageListener;
 import com.network.protocols.AbstractProtocol;
-import com.network.protocols.RelayMessage;
 import com.network.protocols.TimeManager;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,6 +14,8 @@ import java.util.logging.Logger;
 
 /**
  * Handles a server-side channel.
+ *
+ * @author ningzhangnj
  */
 @Sharable
 public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
@@ -24,8 +23,6 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger logger = Logger.getLogger(TelnetServerHandler.class.getName());
 
     private AbstractProtocol<TelnetMessage> protocol;
-
-    private boolean receivedMsg = false;
 
     public TelnetServerHandler(AbstractProtocol<TelnetMessage> protocol) {
         this.protocol = protocol;
@@ -38,7 +35,6 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
                 "Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
         ctx.write("It is " + new Date() + " now.\r\n");
         ctx.flush();
-        receivedMsg = false;
 
         for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
             if (listener instanceof TelnetRelay) {
@@ -50,18 +46,13 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelRead0(final ChannelHandlerContext ctx, String request) throws Exception {
         //Telnet server need to skip the first message, need to investigate why.
-        if (receivedMsg) {
-            TimeManager.getInstance().startCount();
 
-            TelnetMessage msg = new TelnetMessage(TimeManager.getInstance().getCurrentTimeDiff(), request);
+        TimeManager.getInstance().startCount();
 
-            for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
-                listener.onServerReceiveMessage(msg);
-            }
-        }
+        TelnetMessage msg = new TelnetMessage(TimeManager.getInstance().getCurrentTimeDiff(), request);
 
-        if (!receivedMsg) {
-            receivedMsg = true;
+        for (MessageListener<TelnetMessage> listener:protocol.getListeners()) {
+            listener.onServerReceiveMessage(msg);
         }
     }
 

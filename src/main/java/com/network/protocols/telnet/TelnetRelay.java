@@ -1,10 +1,8 @@
 package com.network.protocols.telnet;
 
 import com.network.listener.MessageListener;
-import com.network.mq.MessageEvent;
 import com.network.worker.RunnableDecorator;
 import com.network.worker.ThreadDispatcher;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.concurrent.BlockingQueue;
@@ -13,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * TelnetRelay.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class TelnetRelay implements MessageListener<TelnetMessage> {
     private ChannelHandlerContext clientChannel;
@@ -23,8 +21,6 @@ public class TelnetRelay implements MessageListener<TelnetMessage> {
     private BlockingQueue<TelnetMessage> clientMsgQueue = new LinkedBlockingQueue<TelnetMessage>();
 
     private BlockingQueue<TelnetMessage> serverMsgQueue = new LinkedBlockingQueue<TelnetMessage>();
-
-    private String cache = "";
 
     public TelnetRelay() {
         init();

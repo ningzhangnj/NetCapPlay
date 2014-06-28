@@ -4,17 +4,16 @@ import com.network.protocols.AbstractProtocol;
 import com.network.protocols.Startable;
 import com.network.worker.RunnableDecorator;
 import com.network.worker.ThreadDispatcher;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * Simplistic telnet server.
+ *
+ * @author ningzhangnj
  */
 public class TelnetServer extends AbstractProtocol<TelnetMessage> implements Startable {
 
@@ -57,7 +56,7 @@ public class TelnetServer extends AbstractProtocol<TelnetMessage> implements Sta
     @Override
     public void stop() {
         if (ch != null) {
-            ch.closeFuture().addListener(ChannelFutureListener.CLOSE);
+            ch.close();
         }
     }
 

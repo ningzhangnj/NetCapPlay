@@ -3,7 +3,7 @@ package com.network.mq;
 /**
  * MessageEvent.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public interface MessageEvent {
     /**

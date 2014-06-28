@@ -12,6 +12,8 @@ import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * Creates a newly configured {@link ChannelPipeline} for a new channel.
+ *
+ * @author ningzhangnj
  */
 public class TelnetClientInitializer extends ChannelInitializer<SocketChannel> {
     private final StringDecoder DECODER = new StringDecoder();

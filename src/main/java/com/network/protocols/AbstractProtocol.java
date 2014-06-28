@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * AbstractProtocol.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public abstract class AbstractProtocol<T> {
     private final List<MessageListener<T>> listeners = new ArrayList<MessageListener<T>>();

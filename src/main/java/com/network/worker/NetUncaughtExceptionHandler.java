@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * NetUncaughtExceptionHandler.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class NetUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(NetUncaughtExceptionHandler.class);

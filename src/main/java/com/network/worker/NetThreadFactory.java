@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 /**
  * NetThreadFactory.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class NetThreadFactory implements ThreadFactory {
     private String className;

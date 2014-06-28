@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * MessageQueue.
  *
- * @author enigzhg
+ * @author ningzhangnj
  */
 public class MessageQueue {
     private static final Logger logger = LoggerFactory.getLogger(MessageQueue.class);
